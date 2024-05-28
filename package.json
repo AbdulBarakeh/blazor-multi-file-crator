@@ -3,7 +3,7 @@
   "displayName": "Blazor Multi File Creator",
   "description": "Create a blazor component with seperated razor and cs files.",
   "publisher": "Barakeh-Soft",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "engines": {
     "vscode": "^1.89.0"
   },

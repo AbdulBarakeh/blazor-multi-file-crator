@@ -18,12 +18,18 @@ export function activate(context: vscode.ExtensionContext) {
             const razorCsFilePath = path.join(folderPath, `${name}.razor.cs`);
             const razorScssFilePath = path.join(folderPath, `${name}.razor.scss`);
 
-            // Create the files
-            await fs.writeFile(razorFilePath, `<h3>${name} component</h3>`);
-            await fs.writeFile(razorCsFilePath, `public partial class ${name} { }`);
-            await fs.writeFile(razorScssFilePath, `/* Styles for ${name} component */`);
+            // Check if the file already exists
+            try {
+                await fs.access(razorFilePath);
+                vscode.window.showInformationMessage(`Blazor component already exists with name: ${name}`);
+            } catch {
+                // File does not exist, proceed to create the files
+                await fs.writeFile(razorFilePath, `<h3>${name} component</h3>`);
+                await fs.writeFile(razorCsFilePath, `public partial class ${name} { }`);
+                await fs.writeFile(razorScssFilePath, `/* Styles for ${name} component */`);
 
-            vscode.window.showInformationMessage(`Blazor component files created for ${name}`);
+                vscode.window.showInformationMessage(`Blazor component files created for ${name}`);
+            }
         } catch (error) {
             vscode.window.showErrorMessage(`Failed to create Blazor component files: ${error instanceof Error ? error.message : String(error)}`);
         }
@@ -32,4 +38,4 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(disposable);
 }
 
-export function deactivate() {}
+export function deactivate() { }
